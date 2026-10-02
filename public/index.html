@@ -26,8 +26,15 @@
 
   <footer class="player">
     <div class="now-playing">
-      <div id="np-title" class="np-title">Nothing playing</div>
-      <div id="np-artist" class="np-artist"></div>
+      <div class="np-info">
+        <div id="np-title" class="np-title">Nothing playing</div>
+        <div id="np-artist" class="np-artist"></div>
+      </div>
+      <div class="player-controls">
+        <button id="shuffle-btn" class="ctrl-btn" title="Shuffle">🔀</button>
+        <button id="prev-btn" class="ctrl-btn" title="Previous">⏮</button>
+        <button id="next-btn" class="ctrl-btn" title="Next">⏭</button>
+      </div>
     </div>
     <audio id="audio" controls preload="metadata"></audio>
   </footer>
