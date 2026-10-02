@@ -5,9 +5,13 @@ const audio = document.getElementById('audio');
 const npTitle = document.getElementById('np-title');
 const npArtist = document.getElementById('np-artist');
 const downloadAllBtn = document.getElementById('download-all');
+const nextBtn = document.getElementById('next-btn');
+const prevBtn = document.getElementById('prev-btn');
+const shuffleBtn = document.getElementById('shuffle-btn');
 
 let currentSongs = [];
 let currentPlayingTitle = null;
+let shuffleOn = false;
 
 // ---------- IndexedDB ----------
 const DB_NAME = 'music-cache';
@@ -46,13 +50,14 @@ async function hasBlob(key) {
   return (await getBlob(key)) !== null;
 }
 
-// ---------- UI ----------
+// ---------- Status ----------
 function setStatus() {
   const online = navigator.onLine;
   statusEl.textContent = online ? 'Online' : 'Offline';
   statusEl.className = 'status ' + (online ? 'online' : 'offline');
 }
 
+// ---------- Song list ----------
 async function renderSongList(songs) {
   currentSongs = songs;
   songListEl.innerHTML = '';
@@ -120,6 +125,71 @@ async function playSong(song) {
     el.classList.toggle('playing', el.dataset.title === song.title)
   );
   audio.play();
+}
+
+function playNext() {
+  if (!currentPlayingTitle || currentSongs.length === 0) return;
+  const idx = currentSongs.findIndex(s => s.title === currentPlayingTitle);
+  if (idx === -1) return;
+  const next = currentSongs[(idx + 1) % currentSongs.length];
+  playSong(next);
+}
+
+function playPrevious() {
+  if (!currentPlayingTitle || currentSongs.length === 0) return;
+
+  // If more than 3 seconds into the song, restart it (Spotify behavior)
+  if (audio.currentTime > 3) {
+    audio.currentTime = 0;
+    audio.play();
+    return;
+  }
+
+  const idx = currentSongs.findIndex(s => s.title === currentPlayingTitle);
+  if (idx === -1) return;
+  const prev = currentSongs[(idx - 1 + currentSongs.length) % currentSongs.length];
+  playSong(prev);
+}
+
+function playRandom() {
+  if (currentSongs.length === 0) return;
+  if (currentSongs.length === 1) {
+    playSong(currentSongs[0]);
+    return;
+  }
+  let next;
+  do {
+    next = currentSongs[Math.floor(Math.random() * currentSongs.length)];
+  } while (next.title === currentPlayingTitle);
+  playSong(next);
+}
+
+// ---------- Autoplay on song end ----------
+audio.addEventListener('ended', () => {
+  if (shuffleOn) playRandom();
+  else playNext();
+});
+
+// ---------- Player buttons ----------
+nextBtn.onclick = () => {
+  if (shuffleOn) playRandom();
+  else playNext();
+};
+
+prevBtn.onclick = () => {
+  playPrevious();
+};
+
+shuffleBtn.onclick = () => {
+  shuffleOn = !shuffleOn;
+  shuffleBtn.classList.toggle('active', shuffleOn);
+  localStorage.setItem('shuffleOn', shuffleOn ? '1' : '0');
+};
+
+// Restore shuffle preference on load
+if (localStorage.getItem('shuffleOn') === '1') {
+  shuffleOn = true;
+  shuffleBtn.classList.add('active');
 }
 
 // ---------- Download ----------
