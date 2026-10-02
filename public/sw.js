@@ -1,4 +1,4 @@
-const CACHE = 'music-app-v1';
+const CACHE = 'music-app-v3';
 const SHELL = ['/', '/index.html', '/style.css', '/app.js', '/manifest.json'];
 
 self.addEventListener('install', e => {
