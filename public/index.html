@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>My Music</title>
+  <meta name="theme-color" content="#121212" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>🎵 My Music</h1>
+    <div class="topbar-right">
+      <span id="status" class="status">…</span>
+      <button id="download-all" class="btn ghost">Download all</button>
+    </div>
+  </header>
+
+  <main class="content">
+    <ul id="song-list" class="song-list"></ul>
+    <p id="empty" class="empty hidden">
+      No songs yet. Add MP3 files to your cloud storage and update the playlist.
+    </p>
+  </main>
+
+  <footer class="player">
+    <div class="now-playing">
+      <div id="np-title" class="np-title">Nothing playing</div>
+      <div id="np-artist" class="np-artist"></div>
+    </div>
+    <audio id="audio" controls preload="metadata"></audio>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
