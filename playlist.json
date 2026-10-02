@@ -1,0 +1,12 @@
+[
+  {
+    "title": "song1.m4a",
+    "artist": "Realme",
+    "url": "https://b7a239f9fe53.blob.upstash.io/song1.m4a"
+  },
+  {
+    "title": "song2.mp3",
+    "artist": "Metro",
+    "url": "https://b7a239f9fe53.blob.upstash.io/song2.mp3"
+  }
+]
