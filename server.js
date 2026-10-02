@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 // Replace this with your actual playlist URL after Step 2.
 // For now it points to a placeholder that will return an empty list.
-const PLAYLIST_URL = process.env.PLAYLIST_URL || '';
+const PLAYLIST_URL = process.env.PLAYLIST_URL || 'https://b7a239f9fe53.blob.upstash.io/playlist.json';
 
 app.use(express.static(path.join(__dirname, 'public')));
 
